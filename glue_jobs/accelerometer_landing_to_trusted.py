@@ -52,8 +52,8 @@ SQLQuery_node1779688563229 = sparkSqlQuery(glueContext, query = SqlQuery0, mappi
 
 # Script generated for node Amazon S3
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1779688563229, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1779688129002", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
-AmazonS3_node1779688753638 = glueContext.getSink(path="s3://arshad-stedi-project/accelerometer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], compression="snappy", enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779688753638")
+AmazonS3_node1779688753638 = glueContext.getSink(path="s3://arshad-stedi-project/accelerometer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779688753638")
 AmazonS3_node1779688753638.setCatalogInfo(catalogDatabase="stedi",catalogTableName="accelerometer_trusted")
-AmazonS3_node1779688753638.setFormat("json")
+AmazonS3_node1779688753638.setFormat("glueparquet", compression="snappy")
 AmazonS3_node1779688753638.writeFrame(SQLQuery_node1779688563229)
 job.commit()

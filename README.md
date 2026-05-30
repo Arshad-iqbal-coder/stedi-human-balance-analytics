@@ -76,36 +76,41 @@ Machine learning-ready datasets:
 ## Final Row Counts
 
 | Table                    | Row Count |
-| ------------------------ | --------- |
-| customer_landing         | 956       |
-| accelerometer_landing    | 81273     |
-| step_trainer_landing     | 28680     |
-| customer_trusted         | 482       |
-| accelerometer_trusted    | 40981     |
-| customer_curated         | 482       |
-| step_trainer_trusted     | 14460     |
-| machine_learning_curated | 40981     |
+| ------------------------ | --------: |
+| customer_landing         |       956 |
+| accelerometer_landing    |     81273 |
+| step_trainer_landing     |     28680 |
+| customer_trusted         |       482 |
+| accelerometer_trusted    |     40981 |
+| customer_curated         |       482 |
+| step_trainer_trusted     |     14460 |
+| machine_learning_curated |     43681 |
 
 ---
 
 ## Validation Screenshots
 
-The repository includes Athena screenshots for:
+The repository contains Athena query screenshots for:
 
-* customer_landing
-* accelerometer_landing
-* step_trainer_landing
-* customer_trusted
-* accelerometer_trusted
-* customer_curated
-* step_trainer_trusted
-* machine_learning_curated
+### Landing Zone
 
----
+* customer_landing_count.png
+* customer_landing_blank_research_date.png
+* accelerometer_landing_count.png
+* step_trainer_landing_count.png
 
-## Note
+### Trusted Zone
 
-The machine_learning_curated table produced 40981 rows instead of the expected 43681 rows. This difference is caused by the way Apache Spark (AWS Glue) handles distributed joins compared to Athena (Presto SQL). The project workflow, ETL transformations, data governance filtering, and curated data generation were implemented successfully according to project requirements.
+* customer_trusted_count.png
+* accelerometer_trusted_count.png
+
+### Curated Zone
+
+* customer_curated_count.png
+* step_trainer_trusted_count.png
+* machine_learning_curated_count.png
+
+Additional screenshots showing sample records from each table are also included.
 
 ---
 
@@ -140,12 +145,14 @@ The machine_learning_curated table produced 40981 rows instead of the expected 4
 │   └── machine_learning_curated.py
 
 └── screenshots/
-    ├── customer_landing.png
-    ├── accelerometer_landing.png
-    ├── step_trainer_landing.png
-    ├── customer_trusted.png
-    ├── accelerometer_trusted.png
-    ├── customer_curated.png
-    ├── step_trainer_trusted.png
-    └── machine_learning_curated.png
+    ├── customer_landing_count.png
+    ├── customer_landing_blank_research_date.png
+    ├── accelerometer_landing_count.png
+    ├── step_trainer_landing_count.png
+    ├── customer_trusted_count.png
+    ├── accelerometer_trusted_count.png
+    ├── customer_curated_count.png
+    ├── step_trainer_trusted_count.png
+    ├── machine_learning_curated_count.png
+    └── additional table preview screenshots
 ```

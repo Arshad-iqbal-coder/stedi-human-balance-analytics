@@ -29,38 +29,25 @@ DEFAULT_DATA_QUALITY_RULESET = """
 # Script generated for node step_trainer_landing
 step_trainer_landing_node1779701518744 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="step_trainer_landing", transformation_ctx="step_trainer_landing_node1779701518744")
 
-# Script generated for node accelerator_landing
-accelerator_landing_node1779701705717 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="accelerometer_landing", transformation_ctx="accelerator_landing_node1779701705717")
-
-# Script generated for node customer_landing
-customer_landing_node1779701678453 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="customer_landing", transformation_ctx="customer_landing_node1779701678453")
+# Script generated for node customer_curated
+customer_curated_node1779701678453 = glueContext.create_dynamic_frame.from_catalog(database="stedi", table_name="customer_curated", transformation_ctx="customer_curated_node1779701678453")
 
 # Script generated for node SQL Query
 SqlQuery0 = '''
-SELECT 
-    
+SELECT
     s.sensorreadingtime,
     s.serialnumber,
     s.distancefromobject
 FROM s
-WHERE EXISTS (
-SELECT 1
-FROM c 
-WHERE lower(trim(s.serialnumber))=lower(trim(c.serialnumber))
-AND  c.sharewithresearchasofdate IS NOT NULL
-
-AND EXISTS (
-SELECT 1
-FROM a 
-WHERE lower(trim(c.email))= lower(trim(a.user))
-))
+INNER JOIN c
+ON lower(trim(s.serialnumber)) = lower(trim(c.serialnumber))
 '''
-SQLQuery_node1779701740057 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"a":accelerator_landing_node1779701705717, "s":step_trainer_landing_node1779701518744, "c":customer_landing_node1779701678453}, transformation_ctx = "SQLQuery_node1779701740057")
+SQLQuery_node1779701740057 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"s":step_trainer_landing_node1779701518744, "c":customer_curated_node1779701678453}, transformation_ctx = "SQLQuery_node1779701740057")
 
 # Script generated for node Amazon S3
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1779701740057, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1779701088386", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
-AmazonS3_node1779702118810 = glueContext.getSink(path="s3://arshad-stedi-project/step_trainer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], compression="snappy", enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779702118810")
+AmazonS3_node1779702118810 = glueContext.getSink(path="s3://arshad-stedi-project/step_trainer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779702118810")
 AmazonS3_node1779702118810.setCatalogInfo(catalogDatabase="stedi",catalogTableName="step_trusted")
-AmazonS3_node1779702118810.setFormat("json")
+AmazonS3_node1779702118810.setFormat("glueparquet", compression="snappy")
 AmazonS3_node1779702118810.writeFrame(SQLQuery_node1779701740057)
 job.commit()

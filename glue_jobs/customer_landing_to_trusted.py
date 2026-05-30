@@ -31,16 +31,26 @@ AWSGlueDataCatalog_node1779685843402 = glueContext.create_dynamic_frame.from_cat
 
 # Script generated for node SQL Query
 SqlQuery0 = '''
-select * from myDataSource
+SELECT
+    serialnumber,
+    sharewithpublicasofdate,
+    birthday,
+    registrationdate,
+    sharewithresearchasofdate,
+    customername,
+    email,
+    lastupdatedate,
+    phone,
+    sharewithfriendsasofdate
+FROM c
 WHERE sharewithresearchasofdate IS NOT NULL
-
 '''
-SQLQuery_node1779686039067 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"myDataSource":AWSGlueDataCatalog_node1779685843402}, transformation_ctx = "SQLQuery_node1779686039067")
+SQLQuery_node1779686039067 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"c":AWSGlueDataCatalog_node1779685843402}, transformation_ctx = "SQLQuery_node1779686039067")
 
 # Script generated for node Amazon S3
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1779686039067, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1779685704714", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
-AmazonS3_node1779686142992 = glueContext.getSink(path="s3://arshad-stedi-project/customer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], compression="snappy", enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779686142992")
+AmazonS3_node1779686142992 = glueContext.getSink(path="s3://arshad-stedi-project/customer_trusted/", connection_type="s3", updateBehavior="UPDATE_IN_DATABASE", partitionKeys=[], enableUpdateCatalog=True, transformation_ctx="AmazonS3_node1779686142992")
 AmazonS3_node1779686142992.setCatalogInfo(catalogDatabase="stedi",catalogTableName="customer_trusted")
-AmazonS3_node1779686142992.setFormat("json")
+AmazonS3_node1779686142992.setFormat("glueparquet", compression="snappy")
 AmazonS3_node1779686142992.writeFrame(SQLQuery_node1779686039067)
 job.commit()
