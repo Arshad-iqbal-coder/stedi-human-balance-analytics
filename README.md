@@ -114,17 +114,27 @@ Additional screenshots showing sample records from each table are also included.
 
 ---
 
-## Key Concepts Learned
+## Skills Demonstrated
 
-* Data Lakehouse Architecture
-* AWS Glue ETL Pipelines
-* Spark SQL Transformations
-* Data Governance and Privacy Filtering
-* Athena Query Validation
-* Trusted and Curated Data Zones
-* Distributed Data Processing
+- AWS Glue
+- Amazon S3
+- Amazon Athena
+- ETL Development
+- Data Engineering
+- Data Lakehouse Architecture
+- PySpark
+- SQL
+- Cloud Computing
+- Data Governance
 
 ---
+## Project Outcomes
+
+- Built an end-to-end AWS Data Lakehouse pipeline.
+- Processed 80,000+ sensor records.
+- Implemented privacy-aware filtering using research consent data.
+- Created machine-learning-ready curated datasets.
+- Validated transformations using Amazon Athena.
 
 ## Repository Structure
 
