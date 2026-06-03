@@ -6,6 +6,10 @@ This project implements a data lakehouse solution for STEDI Step Trainer sensor 
 
 ---
 
+## Architecture
+
+![Architecture Diagram](screenshots/architecture_diagram.png)
+
 ## AWS Services Used
 
 * Amazon S3
